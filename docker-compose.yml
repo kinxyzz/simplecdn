@@ -6,9 +6,9 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3030:3030"
+      - ${PORT}:${PORT}
     volumes:
-      - ~/uploadData:/app/uploadData
+      - ${STATIC_PATH}:/app/uploadData
     environment:
       - PORT=${PORT}
       - STATIC_PATH=${STATIC_PATH}
