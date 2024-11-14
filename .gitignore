@@ -1,0 +1,38 @@
+# Node modules
+/node_modules/
+
+# Build output
+/dist/
+/build/
+
+# Dependency directories (for some package managers)
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Environment variables file
+.env
+
+# TypeScript specific
+*.tsbuildinfo
+
+# IDE files
+.idea/
+.vscode/
+
+# Operating system specific files
+.DS_Store
+Thumbs.db
+
+# Coverage directory used by tools like istanbul
+/coverage/
+
+# Misc
+*.tgz
+*.bak
+*.swp
