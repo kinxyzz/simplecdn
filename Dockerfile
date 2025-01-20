@@ -1,23 +1,29 @@
-# Gunakan image Node.js versi yang stabil sebagai dasar
-FROM node:18
+# Stage 1: Build
+FROM node:18-alpine3.20 AS builder
 
-# Tentukan working directory di dalam container
+# Set environment variables to make build lighter
+ENV NODE_ENV=production
+
 WORKDIR /app
 
-# Salin package.json dan package-lock.json ke dalam working directory
+# Copy package files and install dependencies
 COPY package*.json ./
+RUN npm install --frozen-lockfile --production=false
 
-# Install dependencies
-RUN npm install
-
-# Salin semua file proyek ke dalam container
+# Copy application source code and build
 COPY . .
-
-# Build TypeScript menjadi JavaScript (jika menggunakan TypeScript)
 RUN npm run build
 
-# Ekspos port aplikasi
-EXPOSE 3000
+# Stage 2: Runtime
+FROM node:18-alpine3.20
 
-# Jalankan aplikasi
+WORKDIR /app
+
+# Copy only the build output and necessary files
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY package*.json ./
+
+# Expose the application port and define the startup command
+EXPOSE 3000
 CMD ["npm", "start"]
